@@ -8,7 +8,8 @@
 
 import React, { Fragment, Component } from 'react';
 import Login from './Login';
-import { ActivityIndicator, View, Text, Image, StyleSheet, TextInput, TouchableHighlight } from 'react-native';
+import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
+import Feed from './Feed';
 
 var AuthService = require('./AuthService');
 
@@ -21,6 +22,14 @@ export default class App extends Component {
       paddingTop: 40,
       padding: 10,
       alignItems: "center"
+    },
+    loader: {
+      marginTop: 20
+    },
+    loginText: {
+      fontSize: 22,
+      color: 'green',
+      textAlign: "center"
     }
   });
 
@@ -46,11 +55,9 @@ export default class App extends Component {
     }
     else {
       return (
-        <View style={this.styles.container}>
-          <Text>Logged in</Text>
-          <ActivityIndicator animating={this.state.checkingAuth} size="large" />
-        </View>
-      )
+        <Feed />
+
+      );
     }
   }
 }
