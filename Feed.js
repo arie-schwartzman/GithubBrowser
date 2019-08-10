@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, Text, View, FlatList } from 'react-native';
+import { ActivityIndicator, Text, View, FlatList, Image, TouchableHighlight } from 'react-native';
+
+var moment = require('moment');
+
 export default class Feed extends Component {
 
     constructor(props) {
@@ -9,14 +12,49 @@ export default class Feed extends Component {
         }
     }
 
+    static navigationOptions = {
+        title: 'Feed'
+    };
+
+    pressRow = (rowData) => {
+        console.log(rowData);
+        this.props.navigation.navigate('Details', { rowData });
+    }
+
     renderItem = (rowData) => {
         if (!rowData) {
             return null;
         }
         return (
-            <Text style={{ color: '#333' }}>
-                {rowData.item.actor.display_login}
-            </Text>
+            <TouchableHighlight onPress={() => { this.pressRow(rowData) }}
+                underlayColor="#ddd" >
+
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    padding: 20,
+                    alignItems: 'center',
+                    borderColor: '#D7D7D7',
+                    borderBottomWidth: 1
+                }}>
+                    <Image style={{ height: 36, width: 36, borderRadius: 18 }}
+                        source={{ url: rowData.item.actor.avatar_url }} />
+                    <View style={{ paddingLeft: 20 }}>
+                        <Text style={{ backgroundColor: '#fff' }}>
+                            {moment(rowData.item.created_at).fromNow()}
+                        </Text>
+                        <Text style={{ backgroundColor: '#fff' }}>
+                            {rowData.item.actor.login} pushed to
+                    </Text>
+                        <Text style={{ backgroundColor: '#fff' }}>
+                            {rowData.item.payload.ref}
+                        </Text>
+                        <Text style={{ backgroundColor: '#fff' }}>
+                            {rowData.item.repo.name}
+                        </Text>
+                    </View>
+                </View>
+            </TouchableHighlight >
         )
     }
 
@@ -57,7 +95,7 @@ export default class Feed extends Component {
                 animating={this.state.loading} size="large" />)
         }
         return (
-            <View style={{ flex: 1, justifyContent: 'flex-start', paddingTop: 40, padding: 10 }}>
+            <View style={{ flex: 1, justifyContent: 'flex-start', padding: 10 }}>
                 <FlatList data={this.state.data}
                     renderItem={this.renderItem} >
                 </FlatList>

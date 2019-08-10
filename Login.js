@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, View, Text, Image, StyleSheet, TextInput, TouchableHighlight } from 'react-native';
+var AuthService = require('./AuthService');
 
 export default class Login extends Component {
+
+    static navigationOptions = {
+        title: 'Login',
+    };
 
     constructor(props) {
         super(props);
@@ -57,6 +62,18 @@ export default class Login extends Component {
         }
     });
 
+    componentDidMount() {
+        AuthService.getAuthInfo((err, authInfo) => {
+            this.setState({
+                checkingAuth: false,
+                isLoggedIn: authInfo != undefined
+            });
+            if (authInfo) {
+                this.props.navigation.navigate('Feed')
+            }
+        });
+    }
+
     onUserNameChanged = (txt) => {
         this.setState({
             userName: txt
@@ -79,8 +96,8 @@ export default class Login extends Component {
             password: this.state.password
         }, (results) => {
             this.setState(Object.assign({ showProgress: false }, results));
-            if (results.success && this.props.onLogin) {
-                this.props.onLogin();
+            if (results.success) {
+                this.props.navigation.navigate('Feed');
             }
         })
     }

@@ -1,5 +1,5 @@
 var buffer = require('buffer');
-var AsyncStorage = require('react-native').AsyncStorage;
+import AsyncStorage from '@react-native-community/async-storage';
 
 class AuthService {
 

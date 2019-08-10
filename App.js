@@ -6,58 +6,40 @@
  * @flow
  */
 
-import React, { Fragment, Component } from 'react';
+import React, { Component } from 'react';
 import Login from './Login';
-import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
 import Feed from './Feed';
+import Search from './Search';
+import Details from './Details';
+import {
+  createStackNavigator,
+  createAppContainer,
+  createSwitchNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 
-var AuthService = require('./AuthService');
 
-export default class App extends Component {
+const AuthStack = createStackNavigator({
+  SignIn: Login,
+});
 
-  styles = StyleSheet.create({
-    container: {
-      backgroundColor: '#F5FCFF',
-      flex: 1,
-      paddingTop: 40,
-      padding: 10,
-      alignItems: "center"
-    },
-    loader: {
-      marginTop: 20
-    },
-    loginText: {
-      fontSize: 22,
-      color: 'green',
-      textAlign: "center"
-    }
-  });
+const FeedTabbedStack = createBottomTabNavigator({
+  Feed: Feed,
+  Search: Search
+})
 
-  state = {
-    isLoggedIn: false,
-    checkingAuth: true
+const AppStack = createStackNavigator({
+  Feed: FeedTabbedStack,
+  Details: Details
+})
+
+
+export default createAppContainer(createSwitchNavigator(
+  {
+    Auth: AuthStack,
+    App: AppStack
+  },
+  {
+    initialRouteName: 'Auth'
   }
-
-  componentDidMount() {
-    AuthService.getAuthInfo((err, authInfo) => {
-      this.setState({
-        checkingAuth: false,
-        isLoggedIn: authInfo != undefined
-      })
-    })
-  }
-
-  render() {
-    if (!this.state.isLoggedIn) {
-      return (
-        <Login onLogin={this.onLogin} />
-      );
-    }
-    else {
-      return (
-        <Feed />
-
-      );
-    }
-  }
-}
+));
