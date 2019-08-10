@@ -62,7 +62,7 @@ export default class Details extends Component {
                     {this.state.pushEvent.repo.name}
                 </Text>
                 <Text style={{ fontSize: 20, paddingTop: 10 }}>
-                    {this.state.pushEvent.payload.commits.length} Commits
+                    {this.state.pushEvent.payload.commits ? this.state.pushEvent.payload.commits.length : '0'} Commits
                 </Text>
 
                 <FlatList style={{ paddingTop: 20 }} data={this.state.pushEvent.payload.commits} renderItem={this.renderItem} >
