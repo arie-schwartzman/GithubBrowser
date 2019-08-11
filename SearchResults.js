@@ -65,6 +65,12 @@ export default class SearchResults extends Component {
                             {rowData.item.stargazers_count}
                         </Text>
                     </View>
+                    <View style={styles.repoCell}>
+                        <Image style={styles.repoCellIcon} source={require('./images/fork.png')} />
+                        <Text style={styles.repoCellLabel}>
+                            {rowData.item.forks_count}
+                        </Text>
+                    </View>
                 </View>
 
             </View>
