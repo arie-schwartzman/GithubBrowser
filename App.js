@@ -11,6 +11,8 @@ import Login from './Login';
 import Feed from './Feed';
 import Search from './Search';
 import Details from './Details';
+import SearchResults from './SearchResults';
+
 import {
   createStackNavigator,
   createAppContainer,
@@ -30,7 +32,8 @@ const FeedTabbedStack = createBottomTabNavigator({
 
 const AppStack = createStackNavigator({
   Feed: FeedTabbedStack,
-  Details: Details
+  Details: Details,
+  SearchResults: SearchResults
 })
 
 
